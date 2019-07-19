@@ -93,12 +93,14 @@ class PopupShiki {
   
 
   function admin_menu() {  // 管理ページ項目の作成
-    $hook = add_options_page(
+    $hook = add_menu_page(
         'ShikiPopupSettings',
         'AokokeShikiPopup',
         'administrator',
         self::OPTION_GROUP,
-        [$this, 'create_admin_page']
+        [$this, 'create_admin_page'],
+        'dashicons-grid-view',
+        80
     );
 
     // このタイミングにフックして写真読み込みスクリプトを読み込んでおく
