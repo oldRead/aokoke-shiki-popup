@@ -1,0 +1,60 @@
+.category {
+  margin-left: 1rem;
+  background: whitesmoke
+}
+
+.thumbnail img {
+  float: right;
+  max-width: 100px;
+  max-height: 100px;
+  margin: 10px;
+  border: 1px solid #ccc;
+}
+.category hr {
+  height: 5px;
+}
+.category table {
+  margin-left: 2rem;
+}
+
+section.category {
+  border-bottom: solid 3px lightgray;
+  margin-bottom: 3rem;
+}
+
+.category section {
+  border-top: solid 2px lightgray;
+  margin: 1rem;
+}
+
+input[type="text"].wide {
+  min-width: 30rem;
+  max-width: 40rem;
+}
+
+input[type="number"] {
+  max-width: 4rem;
+}
+
+.category h2 {
+  font-size: 1.2rem;
+}
+
+.category label span {
+  display: inline-block;
+  width: 10rem;
+  color: #555;
+}
+
+.category label {
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
+.category button {
+  margin-left: 1rem;
+}
+
+i {
+  margin-right: 1rem;
+}
