@@ -1,8 +1,8 @@
 <div class="wrap">
   <h2>AokokeShikiPopupの設定</h2>
-  <?php    // プレビューボタン
+  <?php    // プレビューボタン（トップページURLにプレビューパラメータを付与）
     submit_button('プレビュー', 'secondary', 'preview', true,
-      ['onclick'=>'window.open("'.home_url().'")']);
+      ['onclick'=>'window.open("'.home_url().'?frompreviewbutton")']);
   ?>
   <form method="post" action="options.php">
     <?php
@@ -13,4 +13,3 @@
     ?>
   </form>
 </div>
-

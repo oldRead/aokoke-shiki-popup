@@ -3,7 +3,7 @@
 Plugin Name: Aokoke Shiki Popup
 Plugin URI:
 Description: 4枚の写真をいい感じにポップアップ表示する
-Version: 1.0.0
+Version: 1.0.1
 Author: aokoke
 Author URI:
 License: GPL2
@@ -44,33 +44,12 @@ class PopupShiki {
   const LINK = 'link_';
   const NEW_TAB = 'new_tab';
 
+  const REDISP_COOKIE = 'redisplay';
+
   private $html_result = '';    // 設定画面のhtmlは全てこの変数内に格納し、一括で出力
 
+  // コンストラクタ
   function __construct() {
-    $options = get_option(self::OPTION_GROUP);
-    $redisp = self::REDISPLAY;
-    $value = self::get_safe_value($options, $redisp);
-    $no_popup = '';   // ポップアップ無効化フラグ
-
-    if ($value == '') {    // 「再表示する」のチェックがない場合
-      $no_popup = $_COOKIE[$redisp];      // クッキーの値を元にポップアップ許可を指定
-      setcookie($redisp, '1', 0, '/');    // クッキーをセット
-    } else {                              // 「再表示する」の場合
-      $this->unset_cookie($redisp);       // クッキーを削除
-    }
-
-    if(is_admin()) {    // 管理画面ならば、設定ページ表示処理を開始
-      $no_popup = '';                         // ポップアップを常に許可
-      $this->unset_cookie(self::REDISPLAY);   // 管理ページを表示したら、表示フラグのクッキーを削除
-
-      add_action('admin_menu', [$this, 'admin_menu']);      // 管理メニュー初期化
-      add_action('admin_init', [$this, 'admin_init']);      // 管理ページ初期化
-    }
-    else if ($no_popup !== '1') {    // 管理画面ではない場合、ポップアップ処理へ移行（ポップアップ許可時）
-      add_action('wp_enqueue_scripts', [$this, 'popup']); // スクリプト読み込みのタイミングにフック
-    }
-
-    // ============================================================
     // アクティベート・非アクティベート処理
     register_activation_hook(__FILE__, (function() {
       update_option(self::OPTION_GROUP, []);  // データベースにオプションを追加
@@ -78,7 +57,40 @@ class PopupShiki {
     register_deactivation_hook(__FILE__, (function() {
       delete_option(self::OPTION_GROUP);      // データベースからオプションを削除
     }));
+
+    $options = get_option(self::OPTION_GROUP, '');
+    $redisp = self::get_safe_value($options, self::REDISPLAY);
+    $cookie = self::REDISP_COOKIE;
+    
+    $no_popup = '';   // ポップアップ無効化フラグ（初期値：表示しない）
+
+    switch($redisp) {
+      case 'once':      // 一度だけ表示
+        $no_popup = $_COOKIE[$cookie];    // クッキーの値を元にポップアップ許可を指定
+        setcookie($cookie, '1', 0, '/');  // クッキーをセット
+        break;
+      case 'always':    // 常に表示
+        $this->unset_cookie($cookie);     // クッキーを削除
+        break;
+      case 'never':     // 表示しない
+        $no_popup = '1';                  // 非表示フラグを入れる
+        break;
+    }
+    
+    // プレビューの指定がある時は、ポップアップを常に表示
+    if(isset($_GET['frompreviewbutton'])) $no_popup = '';
+
+    if(is_admin()) {    // 管理画面ならば、設定ページ表示処理を開始
+      setcookie($cookie, '', -1, '/');   // 管理ページを表示したら、表示フラグのクッキーを削除
+
+      add_action('admin_menu', [$this, 'admin_menu']);      // 管理メニュー初期化
+      add_action('admin_init', [$this, 'admin_init']);      // 管理ページ初期化
+    }
+    else if ($no_popup === '') {    // 管理画面ではない場合、ポップアップ処理へ移行（ポップアップ許可時）
+      add_action('wp_enqueue_scripts', [$this, 'popup']); // スクリプト読み込みのタイミングにフック
+    }
   }
+  
 
   function admin_menu() {  // 管理ページ項目の作成
     $hook = add_options_page(
@@ -141,13 +153,12 @@ class PopupShiki {
       // Popupのcssを読み込み
       wp_register_style('aokoke_popup_style', plugins_url('popup/styles/style.css', __FILE__));
       wp_enqueue_style('aokoke_popup_style');
-    
+      
       // Popupのスクリプトを読み込み
       wp_register_script('aokoke_popup_script', plugins_url('popup/js/script.js', __FILE__));
       wp_enqueue_script('aokoke_popup_script');
-
-      // ページ読み込み
-      add_action('loop_end', function() {
+      
+      add_action('loop_end', function() {         // 記事の読み込み後に
         include_once(__DIR__.'/popup/popup.php'); // popup.phpファイルを参照
       });
     }
