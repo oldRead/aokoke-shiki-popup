@@ -8,7 +8,7 @@
   margin: 0;
 }
 
-.aokoke_popup figcaption {
+.aokoke_popup figcaption.message {
   z-index: 2;
   position: absolute;
   width: 80%;
@@ -16,7 +16,7 @@
   bottom: 20%;
 }
 
-.aokoke_popup figcaption p {
+.aokoke_popup figcaption.message p {
   position: absolute;
   top: 50%;
   left: 0;
