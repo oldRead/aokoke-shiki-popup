@@ -38,9 +38,6 @@ $title_margin = [ ($radius === '0'? 'margin-top:': 'margin-bottom:'),
               
 $message_size = $get_value($options, PopupShiki::MESSAGE_SIZE).'rem';
 
-// メッセージスタイルを直前で強制適用
-$message_style = 'z-index: 2;position: absolute;width: 80%;top: 20%;bottom: 20%;';
-
 ?>
 <!-- 動的スタイルの上書き -->
 <style>
@@ -60,7 +57,7 @@ $message_style = 'z-index: 2;position: absolute;width: 80%;top: 20%;bottom: 20%;
   <div class="close_btn" id="close_btn"><i class="fas fa-times"></i></div>
   <a <?= $link_attr ?>>
   <figure class="gallery">
-    <figcaption class="message" style="<?= $message_style ?>">
+    <figcaption class="message">
       <p style="<?= 'font-size:'.$message_size ?>"><?= $message; ?></p>
     </figcaption>
     <?php for($i=0; $i < $opt_photo_num; $i++): ?>

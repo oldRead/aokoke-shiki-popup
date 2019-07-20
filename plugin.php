@@ -3,7 +3,7 @@
 Plugin Name: Aokoke Shiki Popup
 Plugin URI:
 Description: 4枚の写真をいい感じにポップアップ表示する
-Version: 1.0.1
+Version: 1.0.2
 Author: aokoke
 Author URI:
 License: GPL2
