@@ -63,7 +63,7 @@ $checked = checked($target_value, "1", false);
 
 $this->html_result .= <<< EOM
 <section>
-<h2>リンク</h2>
+<h2>クリック</h2>
 <label title="ポップアップをクリックした時のリンクです。">
 <h3>URL：</h3>
 <input type="text" class="wide" name="{$option_name}[{$link}]" value="{$link_value}"
@@ -84,10 +84,12 @@ $value = $get_value($options, $name, $default['rad']);
 
 $this->html_result .= <<< EOM
 <section>
-<h2>ポップアップの外観</h2>
+<h2>外観</h2>
 <label title="50%でまるくなります。">
 <h3>丸み（％）：</h3>
-<input type=number name="{$option_name}[{$name}]" min="0" max="50" step="10" value="{$value}">
+<input type="range" name="{$option_name}[{$name}]" min="0" max="50" step="10" value="{$value}"
+  oninput="document.getElementById('radius_out').value = this.value;">
+<output id="radius_out">{$value}</output>
 %
 </label>
 </section>

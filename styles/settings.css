@@ -17,11 +17,21 @@
   margin-left: 2rem;
 }
 
+.wrap ul {
+  margin-left: 2rem;
+  list-style-type: square;
+}
+
+section.systems {
+  margin: 1rem;
+}
+
 section.category {
   border-bottom: solid 3px lightgray;
   margin-bottom: 3rem;
 }
 
+.wrap > section,
 .category section {
   border-top: solid 2px lightgray;
   margin: 1rem;
@@ -34,6 +44,25 @@ input[type="text"].wide {
 
 input[type="number"] {
   max-width: 4rem;
+}
+
+input[type="range"] {
+  margin-right: 1rem;
+  vertical-align: middle;
+  height: 0.5rem;
+}
+
+output {
+  display: inline-block;
+  text-align: right;
+  width: 2rem;
+  border: gray dotted 1px;
+  background: white;
+  padding: 0.1rem;
+}
+
+.wrap h2 {
+  font-size: 1.5rem;
 }
 
 .category h2 {
