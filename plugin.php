@@ -62,31 +62,34 @@ class PopupShiki {
     $redisp = self::get_safe_value($options, self::REDISPLAY);
     $cookie = self::REDISP_COOKIE;
     
-    $no_popup = '';   // ポップアップ無効化フラグ（初期値：表示しない）
+    $no_popup = 'false';   // ポップアップ無効化フラグ（初期値：表示しない）
 
-    switch($redisp) {
-      case 'once':      // 一度だけ表示
-        $no_popup = $_COOKIE[$cookie];    // クッキーの値を元にポップアップ許可を指定
-        setcookie($cookie, '1', 0, '/');  // クッキーをセット
-        break;
-      case 'always':    // 常に表示
-        $this->unset_cookie($cookie);     // クッキーを削除
-        break;
-      case 'never':     // 表示しない
-        $no_popup = '1';                  // 非表示フラグを入れる
-        break;
+    if(isset($_GET['frompreviewbutton'])) { // プレビューの場合
+      setcookie($cookie, 'false', time()-3600); // クッキーを削除
+    } else {                                // プレビューでなければ
+
+      switch($redisp) {                     // 判定を行う
+        case 'once':      // 一度だけ表示
+          $no_popup = $_COOKIE[$cookie];    // クッキーの値を元にポップアップ許可を指定
+          setcookie($cookie, 'true', 0, '/');  // クッキーをセット
+          break;
+        case 'always':    // 常に表示
+          setcookie($cookie, 'false', time()-3600, '/');   // クッキーを削除
+          break;
+        case 'never':     // 表示しない
+          $no_popup = 'true';                  // 非表示フラグを入れる
+          break;
+      }
     }
-    
-    // プレビューの指定がある時は、ポップアップを常に表示
-    if(isset($_GET['frompreviewbutton'])) $no_popup = '';
+
 
     if(is_admin()) {    // 管理画面ならば、設定ページ表示処理を開始
-      setcookie($cookie, '', -1, '/');   // 管理ページを表示したら、表示フラグのクッキーを削除
+      setcookie($cookie, 'false', time()-3600, '/');   // 非表示フラグのクッキーを削除
 
       add_action('admin_menu', [$this, 'admin_menu']);      // 管理メニュー初期化
       add_action('admin_init', [$this, 'admin_init']);      // 管理ページ初期化
     }
-    else if ($no_popup === '') {    // 管理画面ではない場合、ポップアップ処理へ移行（ポップアップ許可時）
+    else if ($no_popup !== 'true') {    // 管理画面ではない場合、ポップアップ処理へ移行（ポップアップ許可時）
       add_action('wp_enqueue_scripts', [$this, 'popup']); // スクリプト読み込みのタイミングにフック
     }
   }
@@ -128,10 +131,6 @@ class PopupShiki {
       $result[$key] = esc_attr($value); // 端からエスケープして放り込む
     }
     return $result;                     // 結果を返す
-  }
-
-  function unset_cookie($name) {
-    setcookie($name, '', -1, '/');
   }
 
   // スクリプト登録
