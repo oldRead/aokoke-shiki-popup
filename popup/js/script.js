@@ -1,12 +1,12 @@
 'use script';
 
 window.onload = function() {
-  let popup = document.getElementById('aokoke_popup');
+  var popup = document.getElementById('aokoke_popup');
   if(!popup) return;
   popup.classList.add('is_show');
 
-  let blackBg = document.getElementById('black_background');
-  let closeBtn = document.getElementById('close_btn');
+  var blackBg = document.getElementById('black_background');
+  var closeBtn = document.getElementById('close_btn');
 
   closePopUp(blackBg);
   closePopUp(closeBtn);

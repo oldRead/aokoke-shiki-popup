@@ -8,17 +8,15 @@
   margin: 0;
 }
 
-.aokoke_popup figcaption.message {
+.aokoke_popup figcaption {
   z-index: 2;
   position: absolute;
   width: 80%;
-  left:10%;
-  right: 10%;
   top: 20%;
   bottom: 20%;
 }
 
-.aokoke_popup figcaption.message p {
+.aokoke_popup figcaption p {
   position: absolute;
   top: 50%;
   left: 0;
@@ -59,21 +57,14 @@
   position: absolute;
   color: white;
   opacity: 0.7;
+  top: 1rem;
   font-weight: bolder;
 }
 
-.aokoke_popup p.top {
-  top: 1rem;
-}
-
-.aokoke_popup p.bottom {
-  bottom: 1.5rem;
-}
-
-.aokoke_popup p.left {
+.aokoke_popup .left p {
   left: 1rem;
 }
-.aokoke_popup p.right {
+.aokoke_popup .right p {
   right: 1rem;
 }
 
@@ -82,7 +73,6 @@
   object-fit: cover;
   width: 100%;
   height: 100%;
-  background-color: #00000000;
 }
 
 .aokoke_popup {
@@ -115,6 +105,7 @@
   bottom: 0;
   right: 0;
   margin: auto;
+  background-color: white;
   line-height: 80%;
   height: 90%;
   width: 70%;
