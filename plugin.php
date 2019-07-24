@@ -23,6 +23,7 @@ along with {Plugin Name}. If not, see {URI to Plugin License}.
 */
 
 namespace Aokoke;
+ini_set('display_errors', 1);
 
 class PopupShiki {
   const VERSION = '1.0';
@@ -90,14 +91,16 @@ class PopupShiki {
     );
 
     // このタイミングにフックして写真読み込みスクリプトを読み込んでおく
-    // 'admin_print_scripts-'.$hook　という書き方もあるらしい
     add_action('admin_print_scripts', [$this, 'admin_scripts']);
   }
 
   // 管理ページ作成
   function create_admin_page() {
+    // FontAwesome読み込み
+    wp_enqueue_script('fontawesome', plugins_url('js/fontawesome/all.js', __FILE__));
+
     include_once('views/settings.php');
-    wp_enqueue_style(self::OPTION_GROUP, plugins_url('styles/settings.css', __FILE__));
+    wp_enqueue_style('settings', plugins_url('styles/settings.css', __FILE__));
   }
 
   // 管理ページ初期設定
@@ -138,8 +141,11 @@ class PopupShiki {
   function popup() {
     // フロントページである場合に表示
     if (is_front_page()) {
+      // FontAwesome読み込み
+      wp_enqueue_script('fontawesome_js', plugins_url('js/fontawesome/all.js', __FILE__));
+      
       // Popupのcssを読み込み
-      wp_register_style('aokoke_popup_style', plugins_url('popup/styles/style.css', __FILE__));
+      wp_register_style('aokoke_popup_style', plugins_url('popup/styles/style.php', __FILE__));
       wp_enqueue_style('aokoke_popup_style');
     
       // Popupのスクリプトを読み込み

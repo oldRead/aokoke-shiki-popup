@@ -31,12 +31,7 @@
   }
 
   $photo_pos = ['top left', 'top right', 'bottom left', 'bottom right'];
-
-  include_once('lib/style.php');
 ?>
-
-<!-- FontAwesome読み込み -->
-<script src="https://kit.fontawesome.com/f8c88b57ff.js"></script>
 
 <div class="aokoke_popup" id="aokoke_popup">
   <div class="popup_inner">

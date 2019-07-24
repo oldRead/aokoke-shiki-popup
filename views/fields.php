@@ -9,16 +9,11 @@ $get_value = 'Aokoke\PopupShiki::get_safe_value';
 // オプションが保存されるように設定
 register_setting($group_name, $group_name, [$this, 'sanitize']);
 
-$this->html_result .= <<< EOM
-<!-- FontAwesome読み込み -->
-<script src="https://kit.fontawesome.com/f8c88b57ff.js"></script>
-EOM;
-
 // 一般セクション（開始） =============================================================================================
 $this->html_result .= <<< EOM
 
 <section class="category">
-<h1><i class="fas fa-cog"></i>一般</h1>
+<h1><i class="fas fa-cog fa-fw"></i>一般</h1>
 EOM;
 
 //======================================================================================
@@ -100,7 +95,7 @@ EOM;
 //
 $this->html_result .= <<< EOM
 <section class="category">
-<h1><i class="fas fa-camera"></i>写真情報の設定</h1>
+<h1><i class="fas fa-camera fa-fw"></i>写真情報の設定</h1>
 EOM;
 
 $season = ['春', '夏', '秋', '冬'];   // 初期値を番号指定できるように設定

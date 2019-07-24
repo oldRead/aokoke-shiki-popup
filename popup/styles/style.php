@@ -1,3 +1,25 @@
+<?php
+// cssとして扱われるよう定義
+header('Content-Type: text/css; carset=utf-8');
+
+// wp関数の使用に必須
+include_once(dirname(__FILE__).'/../../../../../wp-load.php');
+
+$opt_message_size = Aokoke\PopupShiki::MESSAGE_SIZE;
+$opt_title_size = Aokoke\PopupShiki::TITLE_SIZE;
+$opt_radius = Aokoke\PopupShiki::POPUP_RADIUS;
+
+$options = get_option(Aokoke\PopupShiki::OPTION_GROUP, '');
+if ($options === '') return;    // オプションがなければ終了
+
+$get_value = 'Aokoke\PopupShiki::get_safe_value'; // オプションを取得するメソッド
+
+$message_size = $get_value($options, $opt_message_size, '1.5').'rem';
+$title_size = $get_value($options, $opt_title_size, '2.0').'rem';
+$radius = $get_value($options, $opt_radius, '0').'%';
+
+?>
+
 .aokoke_popup p {
   margin: 0;
 }
@@ -26,6 +48,9 @@
   background-color: #ffffff55;
   border-radius: 50%;
   word-wrap: normal;
+  font-size: <?= $message_size ?>;
+  margin-top: <?= '-'.$message_size ?>;
+  line-height: <?= $message_size ?>;
 }
 
 .aokoke_popup .photo {
@@ -59,6 +84,7 @@
   opacity: 0.7;
   top: 1rem;
   font-weight: bolder;
+  font-size: <?= $title_size ?>;
 }
 
 .aokoke_popup .left p {
@@ -113,6 +139,7 @@
   overflow: hidden;
   vertical-align: middle;
   text-align: center;
+  border-radius: <?= $radius ?>;
 }
 
 .aokoke_popup .close_btn {
@@ -127,6 +154,7 @@
   text-align: center;
   cursor: pointer;
   z-index: 10;
+  color: white;
 }
 
 .aokoke_popup .close_btn i {
@@ -144,4 +172,8 @@
   z-index: 1;
   cursor: pointer;
   transition: .6s;
+}
+
+.aokoke_popup .icon {
+  font-color: white;
 }
